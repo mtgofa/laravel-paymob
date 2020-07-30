@@ -28,8 +28,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "laravel/framework": "5.*",
-        "illuminate/support": "5.*"
+        "laravel/framework": "7.*",
+        "illuminate/support": "7.*"
     },
     "autoload": {
         "psr-4": {
