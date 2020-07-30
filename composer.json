@@ -1,5 +1,5 @@
 {
-    "name": "baklysystems/laravel-paymob",
+    "name": "mtgofa/laravel-paymob",
     "description": "Laravel PayMob online payment gateway package",
     "license": "MIT",
     "keywords": [

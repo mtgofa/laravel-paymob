@@ -24,7 +24,7 @@ A Laravel online payment gateway.
 Require via composer
 
 ```bash
-$ composer require baklysystems/laravel-paymob
+$ composer require mtgofa/laravel-paymob
 ```
 
 In `config/app.php` file
