@@ -32,13 +32,13 @@ In `config/app.php` file
 ```php
 'providers' => [
     ...
-    BaklySystems\PayMob\PayMobServiceProvider::class,
+    MTGofa\PayMob\PayMobServiceProvider::class,
     ...
 ];
 
 'aliases' => [
     ...
-    'PayMob' => BaklySystems\PayMob\Facades\PayMob::class,
+    'PayMob' => MTGofa\PayMob\Facades\PayMob::class,
     ...
 ];
 ```

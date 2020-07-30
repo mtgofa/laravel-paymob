@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-namespace BaklySystems\PayMob;
+namespace MTGofa\PayMob;
 
 class PayMob
 {
@@ -360,7 +360,7 @@ class PayMob
                 'company_emails' => [
                     "elbakly@gmail.com"
                 ],
-                'company_name' => "BaklySystems",
+                'company_name' => "MTGofa",
                 'state' => "",
                 'country' => "",
                 'city' => "",
@@ -387,7 +387,7 @@ class PayMob
                 "company_emails" => [
                     "elbakly@gmail.com"
                 ],
-                "company_name" => "BaklySystems",
+                "company_name" => "MTGofa",
                 "state" => "",
                 "country" => "",
                 "city" => "",
@@ -447,7 +447,7 @@ class PayMob
                     array (
                       0 => 'elbakly@gmail.com',
                     ),
-                    'company_name' => 'BaklySystems',
+                    'company_name' => 'MTGofa',
                     'state' => NULL,
                     'country' => NULL,
                     'city' => NULL,
@@ -651,7 +651,7 @@ class PayMob
                     "company_emails" => [
                         "elbakly@gmail.com"
                     ],
-                    "company_name" => "BaklySystems",
+                    "company_name" => "MTGofa",
                     "state" => "",
                     "country" => "",
                     "city" => "",

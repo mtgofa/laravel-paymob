@@ -11,8 +11,12 @@
         "laravel",
         "egypt"
     ],
-    "homepage": "https://github.com/baklysystems/laravel-paymob",
+    "homepage": "https://github.com/MTGofa/laravel-paymob",
     "authors": [
+        {
+            "name": "Mohamed Tarek",
+            "email": "gofa_25@hotmail.com"
+        },
         {
             "name": "Mohamed Abdul-Fattah",
             "email": "csmohamed8@gmail.com"
@@ -29,16 +33,16 @@
     },
     "autoload": {
         "psr-4": {
-            "BaklySystems\\PayMob\\": "src/"
+            "MTGofa\\PayMob\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "BaklySystems\\PayMob\\PayMobServiceProvider"
+                "MTGofa\\PayMob\\PayMobServiceProvider"
             ],
             "aliases": {
-                "PayMob": "BaklySystems\\PayMob\\Facades\\PayMob"
+                "PayMob": "MTGofa\\PayMob\\Facades\\PayMob"
             }
         }
     }

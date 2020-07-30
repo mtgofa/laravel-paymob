@@ -1,6 +1,6 @@
 <?php
 
-namespace BaklySystems\PayMob;
+namespace MTGofa\PayMob;
 
 use Illuminate\Support\ServiceProvider;
 
