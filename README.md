@@ -24,10 +24,10 @@ A Laravel online payment gateway.
 Require via composer
 
 ```bash
-$ composer require mtgofa/laravel-paymob
+composer require mtgofa/laravel-paymob
 ```
 
-In `config/app.php` file
+Laravel<=5.* In `config/app.php` file
 
 ```php
 'providers' => [
@@ -45,7 +45,7 @@ In `config/app.php` file
 
 First of all, make an account on [WeAccept portal](https://www.weaccept.co/portal/login), run this command to generate the PayMob configuration file
 ```bash
-$ php artisan vendor:publish    
+$ php artisan vendor:publish --provider="MTGofa\PayMob\PayMobServiceProvider"
 ```
 Then fill in the credentials in `config/paymob.php` file. Make sure to make an iframe in your dashboard and get the integration id for payment requests.
 
