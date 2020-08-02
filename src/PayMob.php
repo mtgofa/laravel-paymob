@@ -14,7 +14,19 @@ class PayMob
 {
     public function __construct()
     {
-        //
+        if(config('paymob.token')=='' or config('paymob.merchant_id')==''){
+            $auth = self::authPaymob();
+            if(isset($auth->token)){
+                config([
+                    'paymob.token'       => $auth->token,
+                    'paymob.merchant_id' => $auth->profile->id,
+                ]);
+
+                //Save physically new config values to use directly next time
+                //$config = '<?php return ' . var_export(config('paymob'), true) . ';';
+                //file_put_contents(config_path('paymob.php'), $config);
+            }
+        }
     }
 
     /**
@@ -263,11 +275,10 @@ class PayMob
     /**
      * Get PayMob all orders.
      *
-     * @param  string  $authToken
      * @param  string  $page
      * @return Response
      */
-    public function getOrders($authToken, $page = 1)
+    public function getOrders($page = 1)
     {
         $orders = $this->GETcURL(
             "https://accept.paymobsolutions.com/api/ecommerce/orders?page={$page}&token=".config('paymob.token')
@@ -279,11 +290,10 @@ class PayMob
     /**
      * Get PayMob order.
      *
-     * @param  string  $authToken
      * @param  int  $orderId
      * @return Response
      */
-    public function getOrder($authToken, $orderId)
+    public function getOrder($orderId)
     {
         $order = $this->GETcURL(
             "https://accept.paymobsolutions.com/api/ecommerce/orders/{$orderId}?token=".config('paymob.token')
@@ -295,11 +305,10 @@ class PayMob
     /**
      * Get PayMob all transactions.
      *
-     * @param  string  $authToken
      * @param  string  $page
      * @return Response
      */
-    public function getTransactions($authToken, $page = 1)
+    public function getTransactions($page = 1)
     {
         $transactions = $this->GETcURL(
             "https://accept.paymobsolutions.com/api/acceptance/transactions?page={$page}&token=".config('paymob.token')
@@ -311,17 +320,44 @@ class PayMob
     /**
      * Get PayMob transaction.
      *
-     * @param  string  $authToken
      * @param  int  $transactionId
      * @return Response
      */
-    public function getTransaction($authToken, $transactionId)
+    public function getTransaction($transactionId)
     {
         $transaction = $this->GETcURL(
             "https://accept.paymobsolutions.com/api/acceptance/transactions/{$transactionId}?token=".config('paymob.token')
         );
 
         return $transaction;
+    }
+
+    /**
+     * Get PayMob pay url.
+     *
+     * @param  int  $order_id
+     * @return Response
+     */
+    public function getPayUrl($order_id, $amount_cents=null)
+    {
+        if(!$amount_cents){
+            $order = self::getOrder($order_id);
+            if(!isset($order->amount_cents)) return NULL;
+            $amount_cents = $order->amount_cents;
+        }
+        $payment_key = PayMob::getPaymentKeyPaymob($amount_cents,$order_id);
+        return (isset($payment_key->token))?self::payment_url($payment_key->token):NULL;
+    }
+
+    /**
+     * Get PayMob pay url.
+     *
+     * @param  int  $iframeId
+     * @return Response
+     */
+    public function payment_url($payment_token)
+    {
+        return "https://accept.paymobsolutions.com/api/acceptance/iframes/".config('paymob.iframe_id')."?payment_token={$payment_token}";
     }
 
     /**
