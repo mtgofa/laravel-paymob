@@ -21,6 +21,7 @@ class PayMob
                     'paymob.token'       => $auth->token,
                     'paymob.merchant_id' => $auth->profile->id,
                 ]);
+                
             }
         }
     }
