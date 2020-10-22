@@ -21,10 +21,6 @@ class PayMob
                     'paymob.token'       => $auth->token,
                     'paymob.merchant_id' => $auth->profile->id,
                 ]);
-
-                //Save physically new config values to use directly next time
-                //$config = '<?php return ' . var_export(config('paymob'), true) . ';';
-                //file_put_contents(config_path('paymob.php'), $config);
             }
         }
     }
@@ -154,12 +150,12 @@ class PayMob
     public function getPaymentKeyPaymob(
           $amount_cents,
           $order_id,
-          $email   = 'null',
-          $fname   = 'null',
-          $lname   = 'null',
-          $phone   = 'null',
-          $city    = 'null',
-          $country = 'null'
+          $email   = 'NA', //should be required to go live
+          $fname   = 'NA', //should be required to go live
+          $lname   = 'NA', //should be required to go live
+          $phone   = 'NA', //should be required to go live
+          $city    = 'NA',
+          $country = 'NA'
       ) {
         // Request body
         $json = [
@@ -173,10 +169,10 @@ class PayMob
                 "phone_number" => $phone,
                 "city"         => $city,
                 "country"      => $country,
-                'street'       => 'null',
-                'building'     => 'null',
-                'floor'        => 'null',
-                'apartment'    => 'null'
+                'street'       => 'NA',
+                'building'     => 'NA',
+                'floor'        => 'NA',
+                'apartment'    => 'NA'
             ],
             'currency'            => 'EGP',
             'card_integration_id' => config('paymob.integration_id')
@@ -338,14 +334,14 @@ class PayMob
      * @param  int  $order_id
      * @return Response
      */
-    public function getPayUrl($order_id, $amount_cents=null)
+    public function getPayUrl($order_id, $amount_cents=null, $email='NA',$fname='NA',$lname='NA',$phone='NA',$city='NA', $country='NA')
     {
         if(!$amount_cents){
             $order = self::getOrder($order_id);
             if(!isset($order->amount_cents)) return NULL;
             $amount_cents = $order->amount_cents;
         }
-        $payment_key = PayMob::getPaymentKeyPaymob($amount_cents,$order_id);
+        $payment_key = PayMob::getPaymentKeyPaymob($amount_cents,$order_id,$email,$fname,$lname,$phone,$city,$country);
         return (isset($payment_key->token))?self::payment_url($payment_key->token):NULL;
     }
 
