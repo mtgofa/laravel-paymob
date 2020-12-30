@@ -82,8 +82,6 @@ At this step you will register an order on Paymob Accept so that you can pay for
 
 ```php
 $paymobOrder = PayMob::makeOrderPaymob(
-    $auth->token, // this is token from step 1.
-    $auth->profile->id, // this is the merchant id from step 1.
     $order->totalCost * 100, // total amount by cents/piasters.
     $order->id // your (merchant) order id.
 );
@@ -99,7 +97,6 @@ At this step you will obtain a `payment_key` token. This key will be used to aut
 
 ```php
 $paymentKey = PayMob::getPaymentKeyPaymob(
-    $auth->token, // from step 1.
     $order->totalCost * 100, // total amount by cents/piasters.
     $order->paymob_order_id, // paymob order id from step 2.
     // For billing data
@@ -206,7 +203,6 @@ There are some `GET` methods to get your data from PayMob.
 
 ```php
 PayMob::getOrders(
-    $auth->token, // token from step 1.
     $page // optional for pagination, by default set to 1
 );
 ```
@@ -215,7 +211,6 @@ PayMob::getOrders(
 
 ```php
 PayMob::getOrder(
-    $auth->token, // token from step 1.
     $order->paymob_order_id // PayMob order id from step 2.
 );
 ```
@@ -224,7 +219,6 @@ PayMob::getOrder(
 
 ```php
 PayMob::getTransactions(
-    $auth->token, // token from step 1.
     $page // optional for pagination, by default set to 1
 );
 ```
@@ -233,7 +227,6 @@ PayMob::getTransactions(
 
 ```php
 PayMob::getTransaction(
-    $auth->token, // token from step 1.
     $transactionId // PayMob transaction id from step 4.
 );
 ```
@@ -244,7 +237,6 @@ If your transactions is `auth` type (not `standalone`), then you have to capture
 
 ```php
 PayMob::capture(
-    $auth->token, // token from step 1.
     $transactionId, // the returned id from step 4.
     $totalCost * 100 // total price/cost in cents/piasters.
 );

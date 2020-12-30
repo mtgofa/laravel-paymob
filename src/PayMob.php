@@ -12,6 +12,11 @@ namespace MTGofa\PayMob;
 
 class PayMob
 {
+    private $iframeId = NULL;
+    private $integrationId = NULL;
+    private $token = NULL;
+    private $merchantId = NULL;
+
     public function __construct()
     {
         if(config('paymob.token')=='' or config('paymob.merchant_id')==''){
@@ -21,9 +26,19 @@ class PayMob
                     'paymob.token'       => $auth->token,
                     'paymob.merchant_id' => $auth->profile->id,
                 ]);
-                
+
+                $this->token = $auth->token;
+                $this->merchantId = $auth->profile->id;
             }
         }
+    }
+
+    public function setIframeId($iframeId){
+        $this->iframeId = $iframeId;
+    }
+
+    public function setIntegrationId($integrationId){
+        $this->integrationId = $integrationId;
     }
 
     /**
@@ -118,7 +133,7 @@ class PayMob
     {
         // Request body
         $json = [
-            'merchant_id'            => config('paymob.merchant_id'),
+            'merchant_id'            => $this->merchantId,
             'amount_cents'           => $amount_cents,
             'merchant_order_id'      => $merchant_order_id,
             'currency'               => 'EGP',
@@ -127,7 +142,7 @@ class PayMob
 
         // Send curl
         $order = $this->cURL(
-            'https://accept.paymobsolutions.com/api/ecommerce/orders?token='.config('paymob.token'),
+            'https://accept.paymobsolutions.com/api/ecommerce/orders?token='.$this->token,
             $json
         );
 
@@ -176,12 +191,12 @@ class PayMob
                 'apartment'    => 'NA'
             ],
             'currency'            => 'EGP',
-            'card_integration_id' => config('paymob.integration_id')
+            'card_integration_id' => $this->integrationId
         ];
 
         // Send curl
         $payment_key = $this->cURL(
-            'https://accept.paymobsolutions.com/api/acceptance/payment_keys?token='.config('paymob.token'),
+            'https://accept.paymobsolutions.com/api/acceptance/payment_keys?token='.$this->token,
             $json
         );
 
@@ -232,7 +247,7 @@ class PayMob
             'email'        => $email,
             'phone_number' => $phone,
            ],
-          'payment_token' => config('paymob.token')
+          'payment_token' => $this->token
         ];
 
         // Send curl
@@ -262,7 +277,7 @@ class PayMob
 
         // Send curl.
         $res = $this->cURL(
-            'https://accept.paymobsolutions.com/api/acceptance/capture?token='.config('paymob.token'),
+            'https://accept.paymobsolutions.com/api/acceptance/capture?token='.$this->token,
             $json
         );
 
@@ -278,7 +293,7 @@ class PayMob
     public function getOrders($page = 1)
     {
         $orders = $this->GETcURL(
-            "https://accept.paymobsolutions.com/api/ecommerce/orders?page={$page}&token=".config('paymob.token')
+            "https://accept.paymobsolutions.com/api/ecommerce/orders?page={$page}&token=".$this->token
         );
 
         return $orders;
@@ -293,7 +308,7 @@ class PayMob
     public function getOrder($orderId)
     {
         $order = $this->GETcURL(
-            "https://accept.paymobsolutions.com/api/ecommerce/orders/{$orderId}?token=".config('paymob.token')
+            "https://accept.paymobsolutions.com/api/ecommerce/orders/{$orderId}?token=".$this->token
         );
 
         return $order;
@@ -308,7 +323,7 @@ class PayMob
     public function getTransactions($page = 1)
     {
         $transactions = $this->GETcURL(
-            "https://accept.paymobsolutions.com/api/acceptance/transactions?page={$page}&token=".config('paymob.token')
+            "https://accept.paymobsolutions.com/api/acceptance/transactions?page={$page}&token=".$this->token
         );
 
         return $transactions;
@@ -323,7 +338,7 @@ class PayMob
     public function getTransaction($transactionId)
     {
         $transaction = $this->GETcURL(
-            "https://accept.paymobsolutions.com/api/acceptance/transactions/{$transactionId}?token=".config('paymob.token')
+            "https://accept.paymobsolutions.com/api/acceptance/transactions/{$transactionId}?token=".$this->token
         );
 
         return $transaction;
@@ -354,7 +369,7 @@ class PayMob
      */
     public function payment_url($payment_token)
     {
-        return "https://accept.paymobsolutions.com/api/acceptance/iframes/".config('paymob.iframe_id')."?payment_token={$payment_token}";
+        return "https://accept.paymobsolutions.com/api/acceptance/iframes/".$this->iframeId."?payment_token={$payment_token}";
     }
 
     /**
