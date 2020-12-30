@@ -12,13 +12,16 @@ namespace MTGofa\PayMob;
 
 class PayMob
 {
-    private $iframeId = NULL;
-    private $integrationId = NULL;
-    private $token = NULL;
-    private $merchantId = NULL;
+    private $iframeId;
+    private $integrationId;
+    private $token;
+    private $merchantId;
 
     public function __construct()
     {
+        $this->iframeId = config('paymob.iframe_id');
+        $this->integrationId = config('paymob.integration_id');
+
         if(config('paymob.token')=='' or config('paymob.merchant_id')==''){
             $auth = self::authPaymob();
             if(isset($auth->token)){
