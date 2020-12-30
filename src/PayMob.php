@@ -23,8 +23,9 @@ class PayMob
         $this->integrationId = config('paymob.integration_id');
 
         if(config('paymob.token')=='' or config('paymob.merchant_id')==''){
-            $auth = self::authPaymob();
+            $auth = $this->authPaymob();
             if(isset($auth->token)){
+
                 config([
                     'paymob.token'       => $auth->token,
                     'paymob.merchant_id' => $auth->profile->id,
@@ -356,12 +357,12 @@ class PayMob
     public function getPayUrl($order_id, $amount_cents=null, $email='NA',$fname='NA',$lname='NA',$phone='NA',$city='NA', $country='NA')
     {
         if(!$amount_cents){
-            $order = self::getOrder($order_id);
+            $order = $this->getOrder($order_id);
             if(!isset($order->amount_cents)) return NULL;
             $amount_cents = $order->amount_cents;
         }
-        $payment_key = PayMob::getPaymentKeyPaymob($amount_cents,$order_id,$email,$fname,$lname,$phone,$city,$country);
-        return (isset($payment_key->token))?self::payment_url($payment_key->token):NULL;
+        $payment_key = $this->getPaymentKeyPaymob($amount_cents,$order_id,$email,$fname,$lname,$phone,$city,$country);
+        return (isset($payment_key->token))?$this->payment_url($payment_key->token):NULL;
     }
 
     /**
